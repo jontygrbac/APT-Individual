@@ -438,18 +438,30 @@ void GameEngine::playRound(int counter)
                 if (inHand)
                 {
                     int row = 0;
+                    bool uppercase = false;
                     for (int i = 0; i < LETTERS; ++i)
                     {
                         if (char(splitline[3][0]) == numtoletter[i])
                         {
                             row = i;
+                            uppercase = true;
                         }
                     }
+                    if (uppercase == false){
+                        std::cout << "Invalid input" << std::endl;
+                    }
+                    else{
                     // Join the last two numbers and convert them to an integer
+                    if (splitline[3].size() == 1){
+                        std::cout << "Invalid input" << std::endl;    
+                    }
+                    else{
                     std::string column = std::string(1, splitline[3][1]) + splitline[3][2];
+
                     int col = std::stoi(column);
 
                     bool check = board->insert(tile, row, col);
+                    std::cout << board->get(row, col)->getLetter() << std::endl;
                     rowplacement.push_back(row);
                     colplacement.push_back(col);
                     if (check){
@@ -461,6 +473,8 @@ void GameEngine::playRound(int counter)
                     }
                     tile = nullptr;
                     count += 1;
+                    }
+                    }
                 }
             }
         }
@@ -469,7 +483,6 @@ void GameEngine::playRound(int counter)
     int orientation = validatePlacement(rowplacement, colplacement);
 
     
-    std::cout << orientation << std::endl;
     //invalid Input
     if (orientation == 2){
         std::cout << "Invalid input, tiles must be horizontal or vertically placed" << std::endl;
@@ -479,6 +492,7 @@ void GameEngine::playRound(int counter)
         }
         validation = false;
     }
+    //Valid input/orientation
     else{
         bool result = scoring(rowplacement, colplacement, playerVector[counter], orientation, boardcheck);
         if (result){
