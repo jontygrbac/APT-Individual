@@ -342,6 +342,7 @@ void GameEngine::playRound(int counter)
     int count = 0;
     bool validation = false;
     // placement loop
+    int boardcheck = board->getNumberOfTilesOnBoard();
 
     while (validation == false){
     std::vector<int> rowplacement;
@@ -467,8 +468,9 @@ void GameEngine::playRound(int counter)
     ///0 for horizontal, 1 for vertical, 2 for invalid, 3 if it is single tile placed
     int orientation = validatePlacement(rowplacement, colplacement);
 
+    
     std::cout << orientation << std::endl;
-
+    //invalid Input
     if (orientation == 2){
         std::cout << "Invalid input, tiles must be horizontal or vertically placed" << std::endl;
         for (int i = 0; i < int(rowplacement.size()); ++i){
@@ -477,17 +479,19 @@ void GameEngine::playRound(int counter)
         }
         validation = false;
     }
-    else if (orientation == 0){
-        //std::cout << "Horizontal Placement!" << std::endl;
-        validation = true;
-    }
-    else if (orientation == 1){
-        //std::cout << "Vertical Placement!" << std::endl;
-        validation = true;
-    }
     else{
-        // std::cout << "Single Tile" << std::endl;
+        bool result = scoring(rowplacement, colplacement, playerVector[counter], orientation, boardcheck);
+        if (result){
         validation = true;
+        }
+        else {
+        std::cout << "Invalid input, tiles was not placed adjacent to another tile already on board" << std::endl;
+        for (int i = 0; i < int(rowplacement.size()); ++i){
+            playerVector[counter]->addToHand(*board->get(rowplacement[i], colplacement[i]));
+            board->removeTile(rowplacement[i], colplacement[i]);
+        }
+        validation = false;
+        }
     }
 
     }
@@ -500,6 +504,296 @@ void GameEngine::playRound(int counter)
     // refill hand after loop has been completed
     drawFullHand(*playerVector[counter]);
 }
+
+bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplacement, Player* player, int orientation, int boardcheck){
+    
+    std::vector<std::vector<Tile*> > words;
+    //Horizontal placement
+    if (orientation == 0){
+        int count = -1;
+        Tile* tile = nullptr;
+        tile = board->get(rowplacement[0], colplacement[0]+count);
+        if (tile!=nullptr){
+            while (tile != nullptr){
+                --count;
+                tile = board->get(rowplacement[0], colplacement[0]+count);
+            }
+            ++count;
+            std::vector<Tile*> word;            
+            tile = board->get(rowplacement[0], colplacement[0]+count);
+            while (tile!= nullptr){
+                ++count;
+                word.push_back(tile);
+                tile = board->get(rowplacement[0], colplacement[0]+count);
+            }
+            words.push_back(word);
+        }
+        else{
+            ++count;
+            tile = board->get(rowplacement[0], colplacement[0]+count);
+            std::vector<Tile*> word;
+            while (tile!= nullptr){
+                ++count;
+                word.push_back(tile);
+                tile = board->get(rowplacement[0], colplacement[0]+count);
+            }
+            words.push_back(word);            
+        }
+    //Loop vertical options for each tile
+    for (int i = 0; i < rowplacement.size(); ++i){
+        int count = -1;
+        Tile* tile = nullptr;
+        tile = board->get(rowplacement[i]+count, colplacement[i]);
+        if (tile!=nullptr){
+            while (tile != nullptr){
+                --count;
+                tile = board->get(rowplacement[i]+count, colplacement[i]);
+            }
+            ++count;
+            std::vector<Tile*> word;            
+            tile = board->get(rowplacement[i]+count, colplacement[i]);
+            while (tile!= nullptr){
+                ++count;
+                word.push_back(tile);
+                tile = board->get(rowplacement[i]+count, colplacement[i]);
+            }
+            words.push_back(word);
+        }
+        else{
+            ++count;
+            tile = board->get(rowplacement[i]+count, colplacement[i]);
+            std::vector<Tile*> word;
+            while (tile!= nullptr){
+                ++count;
+                word.push_back(tile);
+                tile = board->get(rowplacement[i]+count, colplacement[i]);
+            }
+            words.push_back(word);            
+    }
+    }
+    int scoretracker = 0;
+    int tiletotal = 0;
+    //If words on board
+    if (boardcheck > 0){
+        for (int i = 0; i < int(words.size()); ++i){
+            for (int j = 0; j < int(words[i].size()); ++j){
+                if (int(words[i].size()) != 1){
+                    scoretracker += words[i][j]->getValue();
+                }
+            }
+        }
+    //Calculate the total value of tiles placed
+    for (int i = 0; i < int(words[0].size()); ++i){
+            tiletotal += words[0][i]->getValue();
+        }
+    //If tiletotal, value of each tile placed is the same as the score added
+    //Then tiles placed are not adjacent to any other
+    //Score is null and placement must be reattempted
+    if (tiletotal == scoretracker){
+        return false;
+    }
+    else {
+        player->addScore(scoretracker);
+        return true;
+    }
+    }
+    //Else just take score of tiles placed 
+    else{
+        for (int i = 0; i < int(words[0].size()); ++i){
+            player->addScore(words[0][i]->getValue());
+        }
+        return true;
+    }
+    }
+
+
+    //Vertical placement
+    else if (orientation == 1){
+        int count = -1;
+        Tile* tile = nullptr;
+        tile = board->get(rowplacement[0]+count, colplacement[0]);
+        if (tile!=nullptr){
+            while (tile != nullptr){
+                --count;
+                tile = board->get(rowplacement[0]+count, colplacement[0]);
+            }
+            ++count;
+            std::vector<Tile*> word;            
+            tile = board->get(rowplacement[0]+count, colplacement[0]);
+            while (tile!= nullptr){
+                ++count;
+                word.push_back(tile);
+                tile = board->get(rowplacement[0]+count, colplacement[0]);
+            }
+            words.push_back(word);
+        }
+        else{
+            ++count;
+            tile = board->get(rowplacement[0]+count, colplacement[0]);
+            std::vector<Tile*> word;
+            while (tile!= nullptr){
+                ++count;
+                word.push_back(tile);
+                tile = board->get(rowplacement[0]+count, colplacement[0]);
+            }
+            words.push_back(word);            
+    }
+    //Horizontal search loop
+    for (int i = 0; i < rowplacement.size(); ++i){
+        int count = -1;
+        Tile* tile = nullptr;
+        tile = board->get(rowplacement[i], colplacement[i]+count);
+        if (tile!=nullptr){
+            while (tile != nullptr){
+                --count;
+                tile = board->get(rowplacement[i], colplacement[i]+count);
+            }
+            ++count;
+            std::vector<Tile*> word;            
+            tile = board->get(rowplacement[i], colplacement[i]+count);
+            while (tile!= nullptr){
+                ++count;
+                word.push_back(tile);
+                tile = board->get(rowplacement[i], colplacement[i]+count);
+            }
+            words.push_back(word);
+        }
+        else{
+            ++count;
+            tile = board->get(rowplacement[i], colplacement[i]+count);
+            std::vector<Tile*> word;
+            while (tile!= nullptr){
+                ++count;
+                word.push_back(tile);
+                tile = board->get(rowplacement[i], colplacement[i]+count);
+            }
+            words.push_back(word);            
+        }
+    }
+    //if tiles on board
+    int scoretracker = 0;
+    int tiletotal = 0;
+    if (boardcheck > 0){
+        for (int i = 0; i < int(words.size()); ++i){
+            for (int j = 0; j < int(words[i].size()); ++j){
+                    if (int(words[i].size()) != 1){
+                    scoretracker += words[i][j]->getValue();
+                    }
+            }
+        }
+    //Calculate the total value of tiles placed
+    for (int i = 0; i < int(words[0].size()); ++i){
+            tiletotal += words[0][i]->getValue();
+        }
+    //If tiletotal, value of each tile placed is the same as the score added
+    //Then tiles placed are not adjacent to any other
+    //Score is null and placement must be reattempted
+    if (tiletotal == scoretracker){
+        return false;
+    }
+    else {
+        player->addScore(scoretracker);
+        return true;
+    }
+    }
+    //Else just take score of tiles placed 
+    else{
+        for (int i = 0; i < int(words[0].size()); ++i){
+            player->addScore(words[0][i]->getValue());
+        }
+    }
+    return true;
+    }
+
+
+    //Single tile
+    else {
+        int count = -1;
+        Tile* tile = nullptr;
+        tile = board->get(rowplacement[0], colplacement[0]+count);
+        if (tile!=nullptr){
+            while (tile != nullptr){
+                --count;
+                tile = board->get(rowplacement[0], colplacement[0]+count);
+            }
+            ++count;
+            std::vector<Tile*> word;            
+            tile = board->get(rowplacement[0], colplacement[0]+count);
+            while (tile!= nullptr){
+                ++count;
+                word.push_back(tile);
+                tile = board->get(rowplacement[0], colplacement[0]+count);
+            }
+            words.push_back(word);
+        }
+        else{
+            ++count;
+            tile = board->get(rowplacement[0], colplacement[0]+count);
+            std::vector<Tile*> word;
+            while (tile!= nullptr){
+                ++count;
+                word.push_back(tile);
+                tile = board->get(rowplacement[0], colplacement[0]+count);
+            }
+            words.push_back(word);            
+        }
+        count = -1;
+        tile = nullptr;
+        tile = board->get(rowplacement[0]+count, colplacement[0]);
+        if (tile!=nullptr){
+            while (tile != nullptr){
+                --count;
+                tile = board->get(rowplacement[0]+count, colplacement[0]);
+            }
+            ++count;
+            std::vector<Tile*> word;            
+            tile = board->get(rowplacement[0]+count, colplacement[0]);
+            while (tile!= nullptr){
+                ++count;
+                word.push_back(tile);
+                tile = board->get(rowplacement[0]+count, colplacement[0]);
+            }
+            words.push_back(word);
+        }
+        else{
+            ++count;
+            tile = board->get(rowplacement[0]+count, colplacement[0]);
+            std::vector<Tile*> word;
+            while (tile!= nullptr){
+                ++count;
+                word.push_back(tile);
+                tile = board->get(rowplacement[0]+count, colplacement[0]);
+            }
+            words.push_back(word);            
+    }
+    //CALCULATE SCORING IF, WORDS[I].SIZE == 1, unless both are equal to 1
+    //if num tiles on board = 0, and size == 1 overall. return and say that tile must be placed adjacent
+    if (boardcheck > 0){
+        //if single tile has been placed and there is nothing adjacent, despite tiles on the board. Return false and request input
+        if (int(words[0].size()) == 1 && int(words[1].size()) == 1){
+            return false;
+        }
+        else{
+        //calculate score for words greater than 1
+        for (int i = 0; i < int(words.size()); ++i){
+            for (int j = 0; j < int(words[i].size()); ++j){
+                    if (int(words[i].size()) != 1){
+                    player->addScore(words[i][j]->getValue());
+                    }
+            }
+        }
+        return true;
+    }
+    }
+    else {
+        //If nothing on board, just calculate the value of tile
+        player->addScore(words[0][0]->getValue());
+        return true;
+    }
+
+    }
+}
+
 
 int GameEngine::validatePlacement(std::vector<int> rowplacement, std::vector<int>colplacement){
     bool rowcheck = true;

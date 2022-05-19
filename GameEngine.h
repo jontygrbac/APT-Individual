@@ -87,6 +87,10 @@ private:
     int validatePlacement(std::vector<int> rowplacement, std::vector<int>colplacement);
 
     /*
+    * Process for scoring
+    */
+    bool scoring(std::vector<int> rowplacement, std::vector<int>colplacement, Player* player, int orientation, int boardcheck);
+    /*
     * Stores number of Players playing
     */
     std::vector<Player*> playerVector;
