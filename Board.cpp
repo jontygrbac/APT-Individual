@@ -43,6 +43,12 @@ bool Board::insert(Tile* t, int row, int col){
     return success;
 }
 
+bool Board::removeTile(int row, int col){
+    //delete board[row][col];
+    board[row][col]=nullptr;
+    return true;
+}
+
 Tile* Board::get(int row, int col){
     Tile* tile = nullptr;
     if (row >= 0 && col >= 0 && row < rows && col < cols){

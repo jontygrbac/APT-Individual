@@ -41,12 +41,16 @@ public:
    * Returns a vector of all Tiles in the board vector
    */
    std::vector<std::string> getAllTilesOnBoard();
+   /*
+   * Delete a tile from the board
+   */
+   bool removeTile(int row, int col);
 
 private:
    /*
    * Stores a list of Tiles and their position (row and column) to be printed on the board
    */
-   std::vector<std::vector<Tile*>> board;
+   std::vector<std::vector<Tile*> > board;
    /*
    * Specific row of the game board
    */
