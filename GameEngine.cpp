@@ -340,9 +340,13 @@ void GameEngine::playRound(int counter)
                             'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
                             'X', 'Y', 'Z'};
     int count = 0;
+    bool validation = false;
     // placement loop
 
-
+    while (validation == false){
+    std::vector<int> rowplacement;
+    std::vector<int> colplacement; 
+    choice = "";
     //placement loop
     while (choice != DONE){
         std::string line = "";
@@ -396,6 +400,7 @@ void GameEngine::playRound(int counter)
         }
         else if(splitline[0] == PASS) {
             choice = DONE;
+            validation = true;
         }
         else if(splitline[1] == DONE){
             choice = DONE;
@@ -408,6 +413,7 @@ void GameEngine::playRound(int counter)
         }
         else if(splitline[0] == EXIT) {
             gameOverPrint();
+            validation = true;
         }
         else{
             std::cout << "Invalid input" << std::endl;
@@ -443,8 +449,10 @@ void GameEngine::playRound(int counter)
                     int col = std::stoi(column);
 
                     bool check = board->insert(tile, row, col);
+                    rowplacement.push_back(row);
+                    colplacement.push_back(col);
                     if (check){
-                    playerVector[counter]->addScore(tile->getValue());
+                    // playerVector[counter]->addScore(tile->getValue());
                     playerVector[counter]->getHand()->remove(index);
                     }
                     else{
@@ -456,6 +464,34 @@ void GameEngine::playRound(int counter)
             }
         }
     }
+    ///0 for horizontal, 1 for vertical, 2 for invalid, 3 if it is single tile placed
+    int orientation = validatePlacement(rowplacement, colplacement);
+
+    std::cout << orientation << std::endl;
+
+    if (orientation == 2){
+        std::cout << "Invalid input, tiles must be horizontal or vertically placed" << std::endl;
+        for (int i = 0; i < int(rowplacement.size()); ++i){
+            playerVector[counter]->addToHand(*board->get(rowplacement[i], colplacement[i]));
+            board->removeTile(rowplacement[i], colplacement[i]);
+        }
+        validation = false;
+    }
+    else if (orientation == 0){
+        //std::cout << "Horizontal Placement!" << std::endl;
+        validation = true;
+    }
+    else if (orientation == 1){
+        //std::cout << "Vertical Placement!" << std::endl;
+        validation = true;
+    }
+    else{
+        // std::cout << "Single Tile" << std::endl;
+        validation = true;
+    }
+
+    }
+
     if (count >= 7){
         std::cout << "BINGO!!!" << std::endl;
         std::cout << std::endl;
@@ -464,6 +500,45 @@ void GameEngine::playRound(int counter)
     // refill hand after loop has been completed
     drawFullHand(*playerVector[counter]);
 }
+
+int GameEngine::validatePlacement(std::vector<int> rowplacement, std::vector<int>colplacement){
+    bool rowcheck = true;
+    bool colcheck = true;
+    int returnVal = 2;
+    //check to see if it is vertical
+    for (int i = 0; i < int(rowplacement.size()); ++i){
+        if (rowplacement[0] != rowplacement[i]){
+            rowcheck = false;
+        }
+    }
+    //check to see if it is horizontal
+    for (int i = 0; i < int(colplacement.size()); ++i){
+        if (colplacement[0] != colplacement[i]){
+            colcheck = false;
+        }
+    }
+
+    //check results of above loop
+    //Vertical
+    if (rowcheck == true && colcheck ==false){
+        returnVal = 0;
+    }    
+    //Horizontal
+    else if (rowcheck == false && colcheck ==true){
+        returnVal = 1;
+    }    
+    //If only one tile is played
+    else if (rowcheck == true && colcheck == true){
+        returnVal = 3;
+    }
+    //Invalid input
+    else {
+        returnVal = 2;
+    }
+
+    return returnVal;    
+}
+
 void GameEngine::playTheGame()
 {
     bool gameOver = false;

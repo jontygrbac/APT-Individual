@@ -79,6 +79,14 @@ private:
     void replaceHandTile(Player& player, const char character);
 
     /*
+    * Ensure tile placement is correct orientation, returns orientation type
+    * 0 = Horizontal placement
+    * 1 = Vertical placement
+    * 2 = Invalid placement
+    */
+    int validatePlacement(std::vector<int> rowplacement, std::vector<int>colplacement);
+
+    /*
     * Stores number of Players playing
     */
     std::vector<Player*> playerVector;
