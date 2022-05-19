@@ -984,6 +984,11 @@ void GameEngine::playTheGame()
         {
             // createSaveFile(playerVector[0], playerVector[1], board, tileBag, counter);
             gameOverPrint();
+            delete board;
+            delete tileBag;
+            delete dict;
+            delete playerVector[0];
+            delete playerVector[1];
         }
     }
 }
