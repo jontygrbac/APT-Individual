@@ -145,6 +145,7 @@ void LinkedList::remove_back() {
 void LinkedList::remove(int index) {
    //Iterative version
      //1. check if the position is > 0
+   std::cout << index << std::endl;
   if(index < 1) {
     remove_front();
   } else if (index == 1 && head != nullptr) {

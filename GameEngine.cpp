@@ -38,6 +38,7 @@ void GameEngine::newGame()
 
     // Initialise the tileBag and the board
     unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
+    seed = 1;
     tileBag = new TileBag(seed);
     board = new Board(MAX_ROW, MAX_COL);
     dict = new Dictionary();
@@ -393,7 +394,7 @@ void GameEngine::playRound(int counter)
             for (int i = 0; i < playerVector[counter]->getHand()->size(); ++i){
                 if (playerVector[counter]->getHand()->get(i)->getLetter() == tileToReplace[0]){
                     inHand = true;
-                    index = i-1;
+                    index = i+1;
                 }
             }
             if (inHand){
@@ -436,6 +437,7 @@ void GameEngine::playRound(int counter)
         //if done isn't chosen start the placement process
         if (choice != DONE){
             if (splitline.size() == 4){
+
                 bool inHand = false;
                 Tile *tile = nullptr;
                 int index = 0;
@@ -443,9 +445,13 @@ void GameEngine::playRound(int counter)
                 {
                     if (playerVector[counter]->getHand()->get(i)->getLetter() == choice[0])
                     {
+                        std::cout << "Here" << std::endl;
                         inHand = true;
-                        index = i;
+                        index = i+1;
                         tile = playerVector[counter]->getHand()->get(i);
+                        std::cout << tile->getLetter();
+                        std::cout << index;
+                        std::cout << std::endl;
                     }
                 }
                 if (inHand)
