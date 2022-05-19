@@ -358,7 +358,7 @@ bool GameEngine::playRound(int counter)
     //placement loop
     while (choice != DONE){
         std::string line = "";
-        std::cin.ignore();
+        // std::cin.ignore();
         std::getline(std::cin, line);
         //terminate if EOF
         if(std::cin.eof()){
@@ -379,14 +379,19 @@ bool GameEngine::playRound(int counter)
                 pointer = i + 1;
             }
         }
-
+        
        
         splitline.push_back(line.substr(pointer, (line.size()-pointer)));
+        
         if(splitline[0] == PLACE) {
             choice = splitline[1];
+            if(splitline[1] == DONE){
+            choice = DONE;
+            validation = true;
+        }
         }
         
-
+        
         else if(splitline[0] == REPLACE) {
             std::string tileToReplace = splitline[1];
 
@@ -408,9 +413,6 @@ bool GameEngine::playRound(int counter)
         else if(splitline[0] == PASS) {
             choice = DONE;
             validation = true;
-        }
-        else if(splitline[1] == DONE){
-            choice = DONE;
         }
         else if(splitline[0] == SAVE) {
             std::string fileName = "unnamed_save_file.txt";
