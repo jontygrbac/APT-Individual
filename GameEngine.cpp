@@ -492,6 +492,14 @@ void GameEngine::playRound(int counter)
         }
         validation = false;
     }
+    else if (orientation == 4){
+        std::cout << "Invalid input, tiles must have interlinking tiles! Cannot be isolated" << std::endl;
+        for (int i = 0; i < int(rowplacement.size()); ++i){
+            playerVector[counter]->addToHand(*board->get(rowplacement[i], colplacement[i]));
+            board->removeTile(rowplacement[i], colplacement[i]);
+        }
+        validation = false;
+    }
     //Valid input/orientation
     else{
         bool result = scoring(rowplacement, colplacement, playerVector[counter], orientation, boardcheck);
@@ -597,8 +605,8 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
             }
         }
     //Calculate the total value of tiles placed
-    for (int i = 0; i < int(words[0].size()); ++i){
-            tiletotal += words[0][i]->getValue();
+    for (int i = 0; i < int(rowplacement.size()); ++i){
+            tiletotal += board->get(rowplacement[i], colplacement[i])->getValue();
         }
     //If tiletotal, value of each tile placed is the same as the score added
     //Then tiles placed are not adjacent to any other
@@ -696,8 +704,8 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
             }
         }
     //Calculate the total value of tiles placed
-    for (int i = 0; i < int(words[0].size()); ++i){
-            tiletotal += words[0][i]->getValue();
+    for (int i = 0; i < int(rowplacement.size()); ++i){
+            tiletotal += board->get(rowplacement[i], colplacement[i])->getValue();
         }
     //If tiletotal, value of each tile placed is the same as the score added
     //Then tiles placed are not adjacent to any other
@@ -825,10 +833,31 @@ int GameEngine::validatePlacement(std::vector<int> rowplacement, std::vector<int
             colcheck = false;
         }
     }
+    
+    //Ensure that there isn't a stray tile placement. E.G |A|?|B|C| 
+    bool stray = false;
+    if (board->getNumberOfTilesOnBoard() != 1 && int(rowplacement.size()) != 1){
+    int checker = 1;
+    
+    for (int i = 0; i < int(rowplacement.size()); ++i){
+        if (board->get(rowplacement[i]+checker, colplacement[i]) == nullptr){
+            if (board->get(rowplacement[i]-checker, colplacement[i]) == nullptr){
+                if (board->get(rowplacement[i], colplacement[i]+checker) == nullptr){
+                    if (board->get(rowplacement[i], colplacement[i]-checker) == nullptr){
+                        stray = true;
+            }
+            }
+            }
+        }
+    }
+    }
 
     //check results of above loop
+    if (stray == true) {
+        returnVal = 4;
+    }
     //Vertical
-    if (rowcheck == true && colcheck ==false){
+    else if (rowcheck == true && colcheck ==false){
         returnVal = 0;
     }    
     //Horizontal

@@ -35,11 +35,13 @@ int Board::getSize(){
 }
 
 bool Board::insert(Tile* t, int row, int col){
+    std::cout << "Board::insert" << std::endl;
     bool success = false;
     if (row >= 0 && col >= 0 && row < rows && col < cols && board[row][col]==nullptr){
         board[row][col] = t;
         success = true;
     }
+    std::cout << success << std::endl;
     return success;
 }
 
