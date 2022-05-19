@@ -445,13 +445,9 @@ void GameEngine::playRound(int counter)
                 {
                     if (playerVector[counter]->getHand()->get(i)->getLetter() == choice[0])
                     {
-                        std::cout << "Here" << std::endl;
                         inHand = true;
                         index = i+1;
                         tile = playerVector[counter]->getHand()->get(i);
-                        std::cout << tile->getLetter();
-                        std::cout << index;
-                        std::cout << std::endl;
                     }
                 }
                 if (inHand)
@@ -480,7 +476,6 @@ void GameEngine::playRound(int counter)
                     int col = std::stoi(column);
 
                     bool check = board->insert(tile, row, col);
-                    std::cout << board->get(row, col)->getLetter() << std::endl;
                     rowplacement.push_back(row);
                     colplacement.push_back(col);
                     if (check){

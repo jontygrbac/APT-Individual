@@ -42,7 +42,6 @@ typedef std::string File;
         
         for (int i = 0; i < getSize(); ++i){
             if (word == dictionary[i]){
-                std::cout << "Found" << std::endl;
                 retValue = true;
             }
         }
