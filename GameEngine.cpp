@@ -416,6 +416,16 @@ void GameEngine::playRound(int counter)
             gameOverPrint();
             validation = true;
         }
+        else if(splitline[0] == HELP){
+            std::cout << "---------------------------------------------------------" << std::endl;
+            std::cout << "Place tile: \"place <tile e.g A> at <coordinate e.g C2>\"" << std::endl;
+            std::cout << "Finish placing tiles: \"place Done\"" << std::endl;
+            std::cout << "Replace tile: \"replace <tile e.g C>\"" << std::endl;
+            std::cout << "Exit game: \"exit\"" << std::endl;
+            std::cout << "Save game: \"save <filename>\"" << std::endl;
+            std::cout << "Pass turn: \"pass>\"" << std::endl;
+            std::cout << "---------------------------------------------------------" << std::endl;
+        }
         else{
             std::cout << "Invalid input" << std::endl;
         }

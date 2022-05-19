@@ -14,6 +14,7 @@
 #define PASS "pass"
 #define DONE "Done"
 #define SAVE_EXTENSION ".txt"
+#define HELP "help"
 
 
 #include <iostream>
