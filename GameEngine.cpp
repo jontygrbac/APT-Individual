@@ -38,7 +38,6 @@ void GameEngine::newGame()
 
     // Initialise the tileBag and the board
     unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
-    seed = 1;
     tileBag = new TileBag(seed);
     board = new Board(MAX_ROW, MAX_COL);
     dict = new Dictionary();
