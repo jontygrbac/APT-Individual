@@ -11,6 +11,7 @@ rows(rows), cols(cols)
     }
 }
 
+
 Board::Board(Board& other):
 rows(other.rows), cols(other.cols)
 {
