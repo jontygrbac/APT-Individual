@@ -8,6 +8,7 @@
 typedef std::string File;
 
     Dictionary::Dictionary(){
+        this->size = 0;
 
     }
     Dictionary::~Dictionary(){
@@ -23,27 +24,28 @@ typedef std::string File;
             while(!input.eof()){
                 std::string entry;
                 std::getline(input, entry);
-                dictionary.push_back(entry);
+                std::string str = entry.substr(0,entry.size()-1);
+                dictionary.push_back(str);
+                ++size;
             }
         }
     }
+
+    int Dictionary::getSize(){
+        return size;
+    }
     /*Get a string by searching for a specific word from the vector
     */
-    std::string Dictionary::get(std::string word){
-        std::string retValue = "";
+    bool Dictionary::get(std::string word){
+        bool retValue = false;
         std::string value;
-        std::cout << word.size() << "\n";
-        if(!dictionary.empty()){
-            for(std::vector<std::string>::iterator it = dictionary.begin(); it != dictionary.end();
-             ++it){
-                value = *it;
-                if(word.compare(value) == 0){
-                    retValue = value;
-                }
-                else{
-                    //retValue = "None found";
-                }
+        
+        for (int i = 0; i < getSize(); ++i){
+            if (word == dictionary[i]){
+                std::cout << "Found" << std::endl;
+                retValue = true;
             }
         }
+        
         return retValue;
     }

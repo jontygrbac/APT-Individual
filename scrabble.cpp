@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Board.h"
 #include "TileBag.h"
+#include "Dictionary.h"
 #include <iostream>
 #include <fstream>
 #include <vector>

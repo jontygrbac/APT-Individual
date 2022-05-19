@@ -21,10 +21,13 @@ class Dictionary{
         void add(File fileName);
         /*Return a string by searching for a specific word from the dictionary vector
         */
-        std::string get(std::string word);
+        bool get(std::string word);
+
+        int getSize();
 
     private:
         std::ifstream input;
         std::vector<std::string> dictionary;
+        int size;
 };
 #endif

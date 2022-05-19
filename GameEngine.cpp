@@ -40,6 +40,8 @@ void GameEngine::newGame()
     unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
     tileBag = new TileBag(seed);
     board = new Board(MAX_ROW, MAX_COL);
+    dict = new Dictionary();
+    dict->add("corncob_caps.txt");
 
     // Filling up the players hands with 7 tiles
     for (int i = 0; i < MAX_PLAYERS; ++i)
@@ -256,6 +258,8 @@ void GameEngine::LoadGame()
     this->playerVector = playerVector;
     this->tileBag = tileBag;
     this->board = board;
+    dict = new Dictionary();
+    dict->add("corncob_caps.txt");
 
     playTheGame();
 }
@@ -389,14 +393,13 @@ void GameEngine::playRound(int counter)
             for (int i = 0; i < playerVector[counter]->getHand()->size(); ++i){
                 if (playerVector[counter]->getHand()->get(i)->getLetter() == tileToReplace[0]){
                     inHand = true;
-                    index = i;
+                    index = i-1;
                 }
             }
             if (inHand){
                 playerVector[counter]->getHand()->remove(index);
-                count += 1;
             }
-            
+            validation = true;
             choice = DONE;
         }
         else if(splitline[0] == PASS) {
@@ -490,6 +493,7 @@ void GameEngine::playRound(int counter)
         }
     }
     ///0 for horizontal, 1 for vertical, 2 for invalid, 3 if it is single tile placed
+    if (count > 0){
     int orientation = validatePlacement(rowplacement, colplacement);
 
     
@@ -517,13 +521,15 @@ void GameEngine::playRound(int counter)
         validation = true;
         }
         else {
-        std::cout << "Invalid input, tiles was not placed adjacent to another tile already on board" << std::endl;
+        std::cout << "Invalid Word or Input" << std::endl;
+        std::cout << "Place a valid english word and ensure it has an adjacent tile" <<std::endl;
         for (int i = 0; i < int(rowplacement.size()); ++i){
             playerVector[counter]->addToHand(*board->get(rowplacement[i], colplacement[i]));
             board->removeTile(rowplacement[i], colplacement[i]);
         }
         validation = false;
         }
+    }
     }
 
     }
@@ -621,6 +627,11 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
     //If tiletotal, value of each tile placed is the same as the score added
     //Then tiles placed are not adjacent to any other
     //Score is null and placement must be reattempted
+    bool wordValidation = validateWords(words);
+
+    if (wordValidation==false){
+        return false;
+    }
     if (tiletotal == scoretracker){
         return false;
     }
@@ -720,6 +731,12 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
     //If tiletotal, value of each tile placed is the same as the score added
     //Then tiles placed are not adjacent to any other
     //Score is null and placement must be reattempted
+
+    bool wordValidation = validateWords(words);
+
+    if (wordValidation==false){
+        return false;
+    }
     if (tiletotal == scoretracker){
         return false;
     }
@@ -814,7 +831,14 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
                     }
             }
         }
+        bool wordValidation = validateWords(words);
+
+    if (wordValidation==false){
+        return false;
+        }
+    else{
         return true;
+    }
     }
     }
     else {
@@ -826,6 +850,26 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
     }
 }
 
+bool GameEngine::validateWords(std::vector<std::vector<Tile*> > words){
+    std::vector<std::string> strWord; 
+    for (int i = 0; i < int(words.size()); ++i){
+        std::string word = "";
+        for (int j = 0; j < int(words[i].size()); ++j){
+            word += words[i][j]->getLetter();
+        }
+        strWord.push_back(word);
+    }
+
+    for (int i = 0; i < int(strWord.size()); ++i){
+        if (strWord[i].size() > 1){
+            if (dict->get(strWord[i])==false){
+                return false;
+            }
+        }
+
+    }
+    return true;
+}
 
 int GameEngine::validatePlacement(std::vector<int> rowplacement, std::vector<int>colplacement){
     bool rowcheck = true;

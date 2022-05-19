@@ -23,6 +23,7 @@
 #include "Player.h"
 #include "TileBag.h"
 #include "Board.h"
+#include "Dictionary.h"
 
 class GameEngine {
 public:
@@ -86,7 +87,10 @@ private:
     * 2 = Invalid placement
     */
     int validatePlacement(std::vector<int> rowplacement, std::vector<int>colplacement);
-
+    /*
+    * Validate if it is an actual word
+    */
+    bool validateWords(std::vector<std::vector<Tile*> > words);
     /*
     * Process for scoring
     */
@@ -103,6 +107,10 @@ private:
     * Game board for the current game
     */
     Board* board;
+    /*
+    * Dictionary for current game
+    */
+    Dictionary* dict;
 
     bool firstTurn;
 };
