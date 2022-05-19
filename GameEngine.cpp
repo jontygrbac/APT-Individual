@@ -349,6 +349,8 @@ bool GameEngine::playRound(int counter)
     // placement loop
     int boardcheck = board->getNumberOfTilesOnBoard();
 
+    
+
     while (validation == false){
     std::vector<int> rowplacement;
     std::vector<int> colplacement; 
@@ -356,7 +358,7 @@ bool GameEngine::playRound(int counter)
     //placement loop
     while (choice != DONE){
         std::string line = "";
-        // std::cin.ignore();
+        std::cin.ignore();
         std::getline(std::cin, line);
         //terminate if EOF
         if(std::cin.eof()){
@@ -582,7 +584,7 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
             words.push_back(word);            
         }
     //Loop vertical options for each tile
-    for (int i = 0; i < rowplacement.size(); ++i){
+    for (int i = 0; i < int(rowplacement.size()); ++i){
         int count = -1;
         Tile* tile = nullptr;
         tile = board->get(rowplacement[i]+count, colplacement[i]);
@@ -686,7 +688,7 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
             words.push_back(word);            
     }
     //Horizontal search loop
-    for (int i = 0; i < rowplacement.size(); ++i){
+    for (int i = 0; i < int(rowplacement.size()); ++i){
         int count = -1;
         Tile* tile = nullptr;
         tile = board->get(rowplacement[i], colplacement[i]+count);

@@ -1,0 +1,9 @@
+A
+6
+O-1 I-1 G-2 V-4 I-1 E-1 F-4 
+B
+6
+E-1 H-4 D-2 O-1 A-1 B-3 T-1 
+R@B3 T@C2 O@C3 Y@C4 P@D3 E@E3 
+R-1 O-1 R-1 S-1 E-1 Y-4 C-3 S-1 I-1 F-4 A-1 O-1 A-1 E-1 N-1 T-1 B-3 D-2 D-2 E-1 N-1 A-1 K-5 Z-10 M-3 T-1 U-1 O-1 J-8 P-3 I-1 I-1 E-1 N-1 R-1 V-4 U-1 W-4 G-2 L-1 T-1 C-3 E-1 I-1 U-1 O-1 A-1 S-1 W-4 N-1 A-1 D-2 G-2 L-1 Q-10 S-1 I-1 E-1 I-1 E-1 T-1 H-4 R-1 X-8 A-1 A-1 N-1 U-1 L-1 A-1 R-1 N-1 O-1 E-1 M-3 L-1 E-1 
+A
