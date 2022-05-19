@@ -1,0 +1,12 @@
+1
+JONTY
+TED
+Place T at F1
+Place E at F2
+Place A at F3
+Place R at F4
+Place Done
+Place C at E3
+Place T at G3
+Place Done
+Place E at C3
