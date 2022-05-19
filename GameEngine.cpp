@@ -304,7 +304,7 @@ void GameEngine::drawFullHand(Player &player)
         }
     }
 }
-void GameEngine::playRound(int counter)
+bool GameEngine::playRound(int counter)
 {
     // Basic output for starting round
     std::cout << playerVector[counter]->getName() << ", it's your turn" << std::endl;
@@ -360,7 +360,7 @@ void GameEngine::playRound(int counter)
         std::getline(std::cin, line);
         //terminate if EOF
         if(std::cin.eof()){
-           return;
+           return true;
        }
         const char delim = ' ';
         std::vector<std::string> splitline;
@@ -417,7 +417,8 @@ void GameEngine::playRound(int counter)
             createSaveFile(fileName, playerVector[0], playerVector[1], board, tileBag, counter);
         }
         else if(splitline[0] == EXIT) {
-            gameOverPrint();
+            // gameOverPrint();
+            return true;
             validation = true;
         }
         else if(splitline[0] == HELP){
@@ -542,6 +543,8 @@ void GameEngine::playRound(int counter)
     }
     // refill hand after loop has been completed
     drawFullHand(*playerVector[counter]);
+
+    return false;
 }
 
 bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplacement, Player* player, int orientation, int boardcheck){
@@ -953,7 +956,7 @@ void GameEngine::playTheGame()
     while (!gameOver && !quit && !std::cin.eof())
     {
         // FIX ME: IF (playerTurns[counter] == true)
-        playRound(counter);
+        gameOver = playRound(counter);
 
         // End of game condition
         if (tileBag->isEmpty() && playerNoLongerHasTiles())

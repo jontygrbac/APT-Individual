@@ -61,7 +61,7 @@ private:
     /*
     * Initiates a round of scrabble and checks for a gameover or if a Player quits
     */
-    void playRound(int counter);
+    bool playRound(int counter);
     bool playerNoLongerHasTiles();
     /*
     * Prints to console the game over message
