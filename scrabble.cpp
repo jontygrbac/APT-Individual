@@ -46,7 +46,11 @@ void menu()
          if (choice == '1')
          {
             std::shared_ptr<GameEngine> gameEngine = std::make_shared<GameEngine>();
+            std::cout << "Select quantity of players: " << std::endl;
+            std::cout << "Enter 2, 3 or 4" << std::endl;
+            std::cin >> choice;
             gameEngine->newGame();
+
          }
 
          else if (choice == '2')
