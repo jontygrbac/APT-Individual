@@ -1078,6 +1078,11 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
     }
     //Else just take score of tiles placed 
     else{
+    bool wordValidation = validateWords(words);
+
+    if (wordValidation==false){
+        return false;
+    }
         for (int i = 0; i < int(words[0].size()); ++i){
             player->addScore(words[0][i]->getValue());
         }
@@ -1183,6 +1188,11 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
     }
     //Else just take score of tiles placed 
     else{
+    bool wordValidation = validateWords(words);
+
+    if (wordValidation==false){
+        return false;
+    }
         for (int i = 0; i < int(words[0].size()); ++i){
             player->addScore(words[0][i]->getValue());
         }
@@ -1278,9 +1288,15 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
     }
     }
     else {
+        bool wordValidation = validateWords(words);
+        if (wordValidation==false){
+        return false;
+        }
+        else{
         //If nothing on board, just calculate the value of tile
         player->addScore(words[0][0]->getValue());
         return true;
+        }
     }
 
     }
@@ -1298,6 +1314,7 @@ bool GameEngine::validateWords(std::vector<std::vector<Tile*> > words){
 
     for (int i = 0; i < int(strWord.size()); ++i){
         if (strWord[i].size() > 1){
+            std::cout << strWord[i] <<std::endl;
             if (dict->get(strWord[i])==false){
                 return false;
             }
