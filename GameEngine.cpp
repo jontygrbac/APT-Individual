@@ -100,52 +100,69 @@ void GameEngine::LoadGame()
     std::cin >> path;
     std::string line = "";
     std::ifstream ifs;
-
-    std::vector<Player *> playerVector;
-    TileBag *tileBag = new TileBag(0);
-    Board *board = new Board(MAX_ROW, MAX_COL);
+    LinkedList hand1;
+    LinkedList hand2;
+    LinkedList hand3;
+    LinkedList hand4;
     ifs.open(path);
     ValidateLoadFile(ifs, path);
     std::getline(ifs, line);
     std::string c = std::string(1, line[0]);
     int count = std::stoi(c);
-    std::vector<LinkedList> li;
     //store players names
     std::string names[count];
     //store players scores
     int scores[count];
+    std::vector<Player *> playerVector;
+    TileBag *tileBag = new TileBag(0);
+    Board *board = new Board(MAX_ROW, MAX_COL);
+
+    int i = 0;
     int counter = 0;
-    for (int i = 0; i < count; ++i){
-            std::getline(ifs, line);
+    while (std::getline(ifs, line))
+    {
+        if (count == 2){
+        //line 0 and 3 contain players names
+        if (i == 0 || i == 3){
             names[counter] = line;
-            std::getline(ifs, line);
+        }
+        //lines 1 and 4 contain players scores
+        else if (i == 1 || i == 4)
+        {
             scores[counter] = std::stoi(line);
             counter++;
-            std::getline(ifs, line);
+        }
+        else if (i == 2)
+        {
+            //line 2 contains a player's hand
             int start = 0;
             std::string del = " ";
             int end = line.find(del);
-            LinkedList hand;
             while (end != -1)
             {
                 std::string token = line.substr(start, end - start);
-                Tile* tile = new Tile(std::stoi(token.substr(token.find('-') + 1)), token[0]);
-                hand.add_back(tile);
+                Tile *tile = new Tile(std::stoi(token.substr(token.find('-') + 1)), token[0]);
+                hand1.add_back(tile);
                 start = end + del.size();
                 end = line.find(del, start);
-
             }
-            li.push_back(hand);
-    }
-
-
-
-    int i = 0;
-    counter = 0;
-    while (std::getline(ifs, line))
-    {
+        }
+          //line 5 contains a player's hand
+        else if (i == 5)
+        {
+            int pointer = 0;
+            for (int i = 0; i < (int)line.size(); ++i)
+            {
+                if (line[i] == ' ')
+                {
+                    int b = i - pointer;
+                    hand2.add_back(new Tile(std::stoi(line.substr(pointer + 2, b)), line.substr(pointer, b)[0]));
+                    pointer = i + 1;
+                }
+            }
+        }
         //line 6 contains tiles placed on board and their coordinates
-        if (i == 0)
+        else if (i == 6)
         {   if (line.length() != 0){
             Tile *tile;
             int start = 0;
@@ -193,7 +210,7 @@ void GameEngine::LoadGame()
             board->insert(tile, row, col); */
         }
         //line 7 has the tiles in a tilebag
-        else if (i == 1)
+        else if (i == 7)
         {
             int start = 0;
             std::string del = " ";
@@ -207,41 +224,466 @@ void GameEngine::LoadGame()
             }
         }
         //line 8 contains the current player's turn
-        else if (i == 2)
+        else if (i == 8)
         {
-            std::cout << "Here" <<std::endl;
             //if current player's name is the first in the names array
-            int index = 0;
-            for (int i = 0; i < count; ++i){
-                if (line == names[i]){
-                playerVector.push_back(new Player(names[i]));
-                playerVector[0]->setScore(scores[0]);
-                index = i;
-                //add tiles to players hands
-                for (int j = 0; i < li[i].size(); ++j)
-                {
-                    playerVector[0]->addToHand(*(li[i].get(j)));
-                }
-                }
-            }
-            int ind = 1;
-            for (int i = 0; i < count; ++i){
-                if (i != index){
-                playerVector.push_back(new Player(names[i]));
-                playerVector[ind]->setScore(scores[0]);
-                //add tiles to players hands
-                for (int j = 0; i < li[i].size(); ++j)
-                {
-                    playerVector[ind]->addToHand(*(li[i].get(j)));
-                }
-                }
-                ++ind;
-            }
+            if (line == names[0])
             {
+                //add it first to the player's vector so that game resumes on their turn
+                playerVector.push_back(new Player(names[0]));
+                playerVector[0]->setScore(scores[0]);
+                playerVector.push_back(new Player(names[1]));
+                playerVector[1]->setScore(scores[1]);
+                //add tiles to players hands
+                for (int i = 0; i < hand1.size(); ++i)
+                {
+                    playerVector[0]->addToHand(*(hand1.get(i)));
+                }
+                for (int i = 0; i < hand2.size(); ++i)
+                {
+                    playerVector[1]->addToHand(*(hand2.get(i)));
+                }
+            }
+            else
+            {
+                playerVector.push_back(new Player(names[1]));
+                playerVector[0]->setScore(scores[1]);
+                playerVector.push_back(new Player(names[0]));
+                playerVector[1]->setScore(scores[0]);
+                for (int i = 0; i < hand1.size(); ++i)
+                {
+                    playerVector[1]->addToHand(*(hand1.get(i)));
+                }
+                for (int i = 0; i < hand2.size(); ++i)
+                {
+                    playerVector[0]->addToHand(*(hand2.get(i)));
+                }
             }
         }
 
         i++;
+        }
+
+        else if (count == 3){
+        //line 0 and 3 contain players names
+        if (i == 0 || i == 3 || i == 6){
+            names[counter] = line;
+        }
+        //lines 1 and 4 contain players scores
+        else if (i == 1 || i == 4 || i == 7)
+        {
+            scores[counter] = std::stoi(line);
+            counter++;
+        }
+        else if (i == 2)
+        {
+            //line 2 contains a player's hand
+            int start = 0;
+            std::string del = " ";
+            int end = line.find(del);
+            while (end != -1)
+            {
+                std::string token = line.substr(start, end - start);
+                Tile *tile = new Tile(std::stoi(token.substr(token.find('-') + 1)), token[0]);
+                hand1.add_back(tile);
+                start = end + del.size();
+                end = line.find(del, start);
+            }
+        }
+          //line 5 contains a player's hand
+        else if (i == 5)
+        {
+            int pointer = 0;
+            for (int i = 0; i < (int)line.size(); ++i)
+            {
+                if (line[i] == ' ')
+                {
+                    int b = i - pointer;
+                    hand2.add_back(new Tile(std::stoi(line.substr(pointer + 2, b)), line.substr(pointer, b)[0]));
+                    pointer = i + 1;
+                }
+            }
+        }
+        else if (i == 8)
+        {
+            int pointer = 0;
+            for (int i = 0; i < (int)line.size(); ++i)
+            {
+                if (line[i] == ' ')
+                {
+                    int b = i - pointer;
+                    hand3.add_back(new Tile(std::stoi(line.substr(pointer + 2, b)), line.substr(pointer, b)[0]));
+                    pointer = i + 1;
+                }
+            }
+        }
+
+        //line 6 contains tiles placed on board and their coordinates
+        else if (i == 9)
+        {   if (line.length() != 0){
+            Tile *tile;
+            int start = 0;
+            char numtoletter[LETTERS] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+                                    'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+                                    'X', 'Y', 'Z'};
+            std::string del = " ";
+            int row = 0;
+            int col = 0;
+            int end = line.find(del);
+            std::string token = "";
+            while (end != -1)
+            {
+                row = 0;
+                col = 0;
+                token = line.substr(start, end - start);
+                tile = new Tile(getTileNumber(token[0]), token[0]);
+
+                for (int i = 0; i < LETTERS; ++i)
+                {
+                    if (token[token.find('@') + 1] == numtoletter[i])
+                    {
+                        row = i;
+                    }
+                }
+                col = std::stoi(token.substr(token.find('@') + 2));
+                board->insert(tile, row, col);
+
+                start = end + del.size();
+                end = line.find(del, start);
+            }
+        }
+            /* token = line.substr(start);
+            tile = new Tile(getTileNumber(token[0]), token[0]);
+            row = 0;
+            col = 0;
+            for (int i = 0; i < 26; ++i)
+            {
+                if (token[token.find('@') + 1] == numtoletter[i])
+                {
+                    row = i;
+                }
+            }
+            col = std::stoi(token.substr(token.find('@') + 2));
+            board->insert(tile, row, col); */
+        }
+        //line 7 has the tiles in a tilebag
+        else if (i == 10)
+        {
+            int start = 0;
+            std::string del = " ";
+            int end = line.find(del);
+            while (end != -1)
+            {
+                std::string token = line.substr(start, end - start);
+                tileBag->add(*(new Tile(std::stoi(token.substr(token.find('-') + 1)), token[0])));
+                start = end + del.size();
+                end = line.find(del, start);
+            }
+        }
+        //line 8 contains the current player's turn
+        else if (i == 11)
+        {
+            //if current player's name is the first in the names array
+            if (line == names[0])
+            {
+                //add it first to the player's vector so that game resumes on their turn
+                playerVector.push_back(new Player(names[0]));
+                playerVector[0]->setScore(scores[0]);
+                playerVector.push_back(new Player(names[1]));
+                playerVector[1]->setScore(scores[1]);
+                playerVector.push_back(new Player(names[2]));
+                playerVector[2]->setScore(scores[2]);
+                //add tiles to players hands
+                for (int i = 0; i < hand1.size(); ++i)
+                {
+                    playerVector[0]->addToHand(*(hand1.get(i)));
+                }
+                for (int i = 0; i < hand2.size(); ++i)
+                {
+                    playerVector[1]->addToHand(*(hand2.get(i)));
+                }
+                for (int i = 0; i < hand3.size(); ++i)
+                {
+                    playerVector[2]->addToHand(*(hand3.get(i)));
+                }
+            }
+            else if (line == names[1])
+            {
+                playerVector.push_back(new Player(names[1]));
+                playerVector[0]->setScore(scores[1]);
+                playerVector.push_back(new Player(names[0]));
+                playerVector[1]->setScore(scores[0]);
+                playerVector.push_back(new Player(names[2]));
+                playerVector[2]->setScore(scores[2]);
+                for (int i = 0; i < hand1.size(); ++i)
+                {
+                    playerVector[1]->addToHand(*(hand1.get(i)));
+                }
+                for (int i = 0; i < hand2.size(); ++i)
+                {
+                    playerVector[0]->addToHand(*(hand2.get(i)));
+                }
+                for (int i = 0; i < hand3.size(); ++i)
+                {
+                    playerVector[2]->addToHand(*(hand3.get(i)));
+                }
+            }
+            else{
+                playerVector.push_back(new Player(names[2]));
+                playerVector[0]->setScore(scores[2]);
+                playerVector.push_back(new Player(names[1]));
+                playerVector[1]->setScore(scores[1]);
+                playerVector.push_back(new Player(names[0]));
+                playerVector[2]->setScore(scores[0]);
+                for (int i = 0; i < hand1.size(); ++i)
+                {
+                    playerVector[0]->addToHand(*(hand3.get(i)));
+                }
+                for (int i = 0; i < hand2.size(); ++i)
+                {
+                    playerVector[2]->addToHand(*(hand1.get(i)));
+                }
+                for (int i = 0; i < hand2.size(); ++i)
+                {
+                    playerVector[1]->addToHand(*(hand2.get(i)));
+                }
+            }
+        }
+
+        i++;
+        }
+        else if (count == 4){
+        //line 0 and 3 contain players names
+        if (i == 0 || i == 3 || i == 6 || i == 9){
+            names[counter] = line;
+        }
+        //lines 1 and 4 contain players scores
+        else if (i == 1 || i == 4 || i == 7 || i ==10)
+        {
+            scores[counter] = std::stoi(line);
+            counter++;
+        }
+        else if (i == 2)
+        {
+            //line 2 contains a player's hand
+            int start = 0;
+            std::string del = " ";
+            int end = line.find(del);
+            while (end != -1)
+            {
+                std::string token = line.substr(start, end - start);
+                Tile *tile = new Tile(std::stoi(token.substr(token.find('-') + 1)), token[0]);
+                hand1.add_back(tile);
+                start = end + del.size();
+                end = line.find(del, start);
+            }
+        }
+          //line 5 contains a player's hand
+        else if (i == 5)
+        {
+            int pointer = 0;
+            for (int i = 0; i < (int)line.size(); ++i)
+            {
+                if (line[i] == ' ')
+                {
+                    int b = i - pointer;
+                    hand2.add_back(new Tile(std::stoi(line.substr(pointer + 2, b)), line.substr(pointer, b)[0]));
+                    pointer = i + 1;
+                }
+            }
+        }
+        else if (i == 8)
+        {
+            int pointer = 0;
+            for (int i = 0; i < (int)line.size(); ++i)
+            {
+                if (line[i] == ' ')
+                {
+                    int b = i - pointer;
+                    hand3.add_back(new Tile(std::stoi(line.substr(pointer + 2, b)), line.substr(pointer, b)[0]));
+                    pointer = i + 1;
+                }
+            }
+        }
+        else if (i == 11)
+        {
+            int pointer = 0;
+            for (int i = 0; i < (int)line.size(); ++i)
+            {
+                if (line[i] == ' ')
+                {
+                    int b = i - pointer;
+                    hand4.add_back(new Tile(std::stoi(line.substr(pointer + 2, b)), line.substr(pointer, b)[0]));
+                    pointer = i + 1;
+                }
+            }
+        }
+
+        //line 6 contains tiles placed on board and their coordinates
+        else if (i == 12)
+        {   if (line.length() != 0){
+            Tile *tile;
+            int start = 0;
+            char numtoletter[LETTERS] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
+                                    'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
+                                    'X', 'Y', 'Z'};
+            std::string del = " ";
+            int row = 0;
+            int col = 0;
+            int end = line.find(del);
+            std::string token = "";
+            while (end != -1)
+            {
+                row = 0;
+                col = 0;
+                token = line.substr(start, end - start);
+                tile = new Tile(getTileNumber(token[0]), token[0]);
+
+                for (int i = 0; i < LETTERS; ++i)
+                {
+                    if (token[token.find('@') + 1] == numtoletter[i])
+                    {
+                        row = i;
+                    }
+                }
+                col = std::stoi(token.substr(token.find('@') + 2));
+                board->insert(tile, row, col);
+
+                start = end + del.size();
+                end = line.find(del, start);
+            }
+        }
+        }
+
+        else if (i == 13)
+        {
+            int start = 0;
+            std::string del = " ";
+            int end = line.find(del);
+            while (end != -1)
+            {
+                std::string token = line.substr(start, end - start);
+                tileBag->add(*(new Tile(std::stoi(token.substr(token.find('-') + 1)), token[0])));
+                start = end + del.size();
+                end = line.find(del, start);
+            }
+        }
+
+        else if (i == 14)
+        {
+            //if current player's name is the first in the names array
+            if (line == names[0])
+            {
+                //add it first to the player's vector so that game resumes on their turn
+                playerVector.push_back(new Player(names[0]));
+                playerVector[0]->setScore(scores[0]);
+                playerVector.push_back(new Player(names[1]));
+                playerVector[1]->setScore(scores[1]);
+                playerVector.push_back(new Player(names[2]));
+                playerVector[2]->setScore(scores[2]);
+                playerVector.push_back(new Player(names[3]));
+                playerVector[3]->setScore(scores[3]);
+                //add tiles to players hands
+                for (int i = 0; i < hand1.size(); ++i)
+                {
+                    playerVector[0]->addToHand(*(hand1.get(i)));
+                }
+                for (int i = 0; i < hand2.size(); ++i)
+                {
+                    playerVector[1]->addToHand(*(hand2.get(i)));
+                }
+                for (int i = 0; i < hand3.size(); ++i)
+                {
+                    playerVector[2]->addToHand(*(hand3.get(i)));
+                }
+                for (int i = 0; i < hand4.size(); ++i)
+                {
+                    playerVector[3]->addToHand(*(hand4.get(i)));
+                }
+            }
+            else if (line == names[1])
+            {
+                playerVector.push_back(new Player(names[1]));
+                playerVector[0]->setScore(scores[1]);
+                playerVector.push_back(new Player(names[0]));
+                playerVector[1]->setScore(scores[0]);
+                playerVector.push_back(new Player(names[2]));
+                playerVector[2]->setScore(scores[2]);
+                playerVector.push_back(new Player(names[3]));
+                playerVector[3]->setScore(scores[3]);
+                for (int i = 0; i < hand1.size(); ++i)
+                {
+                    playerVector[1]->addToHand(*(hand1.get(i)));
+                }
+                for (int i = 0; i < hand2.size(); ++i)
+                {
+                    playerVector[0]->addToHand(*(hand2.get(i)));
+                }
+                for (int i = 0; i < hand3.size(); ++i)
+                {
+                    playerVector[2]->addToHand(*(hand3.get(i)));
+                }
+                for (int i = 0; i < hand4.size(); ++i)
+                {
+                    playerVector[3]->addToHand(*(hand4.get(i)));
+                }
+            }
+            else if (line == names[2]){
+                playerVector.push_back(new Player(names[2]));
+                playerVector[0]->setScore(scores[2]);
+                playerVector.push_back(new Player(names[1]));
+                playerVector[1]->setScore(scores[1]);
+                playerVector.push_back(new Player(names[0]));
+                playerVector[2]->setScore(scores[0]);
+                playerVector.push_back(new Player(names[3]));
+                playerVector[3]->setScore(scores[3]);
+                for (int i = 0; i < hand3.size(); ++i)
+                {
+                    playerVector[0]->addToHand(*(hand3.get(i)));
+                }
+                for (int i = 0; i < hand1.size(); ++i)
+                {
+                    playerVector[2]->addToHand(*(hand1.get(i)));
+                }
+                for (int i = 0; i < hand2.size(); ++i)
+                {
+                    playerVector[1]->addToHand(*(hand2.get(i)));
+                }
+                for (int i = 0; i < hand4.size(); ++i)
+                {
+                    playerVector[3]->addToHand(*(hand4.get(i)));
+                }
+            }
+                else {
+                playerVector.push_back(new Player(names[3]));
+                playerVector[0]->setScore(scores[3]);
+                playerVector.push_back(new Player(names[2]));
+                playerVector[1]->setScore(scores[2]);
+                playerVector.push_back(new Player(names[1]));
+                playerVector[2]->setScore(scores[1]);
+                playerVector.push_back(new Player(names[0]));
+                playerVector[3]->setScore(scores[0]);
+                for (int i = 0; i < hand4.size(); ++i)
+                {
+                    playerVector[0]->addToHand(*(hand4.get(i)));
+                }
+                for (int i = 0; i < hand3.size(); ++i)
+                {
+                    playerVector[1]->addToHand(*(hand3.get(i)));
+                }
+                for (int i = 0; i < hand1.size(); ++i)
+                {
+                    playerVector[3]->addToHand(*(hand1.get(i)));
+                }
+                for (int i = 0; i < hand2.size(); ++i)
+                {
+                    playerVector[2]->addToHand(*(hand2.get(i)));
+                }
+            }
+        }
+
+        i++;
+        }
     }
     this->playerVector = playerVector;
     this->tileBag = tileBag;
@@ -251,6 +693,7 @@ void GameEngine::LoadGame()
 
     playTheGame(count);
 }
+
 bool GameEngine::validateName(const std::string name) const
 {
     bool flag = true;
@@ -976,8 +1419,9 @@ void GameEngine::playTheGame(int playerCount)
             delete board;
             delete tileBag;
             delete dict;
-            delete playerVector[0];
-            delete playerVector[1];
+            for (int i = 0; i < int(playerVector.size()); ++i){
+                delete playerVector[i];
+            }
         }
     }
 }
