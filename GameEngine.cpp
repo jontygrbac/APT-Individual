@@ -72,7 +72,7 @@ int ValidateLoadFile(std::ifstream &ifs, std::string path)
     {
         std::cout << "File does not exist! Please enter an existing file's path" << std::endl;
         std::cin >> path;
-        ifs.open(path);
+        ifs.open("saves/" + path);
     }
 
     return 1; // dummy value
@@ -104,7 +104,7 @@ void GameEngine::LoadGame()
     LinkedList hand2;
     LinkedList hand3;
     LinkedList hand4;
-    ifs.open(path);
+    ifs.open("saves/" + path);
     ValidateLoadFile(ifs, path);
     std::getline(ifs, line);
     std::string c = std::string(1, line[0]);
@@ -1496,7 +1496,7 @@ void GameEngine::gameOverPrint() const
 bool GameEngine::createSaveFile(std::string fileName, std::vector<Player*> playerVector, Board* board, TileBag* tilebag, int counter){
     std::cout << "Saving Game..." << std::endl;
 
-   std::ofstream file(fileName);
+   std::ofstream file("saves/" + fileName);
    file << int(playerVector.size()) << std::endl;
 
    //add player 1 name, score and hand to savefile
