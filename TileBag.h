@@ -10,6 +10,7 @@ public:
    //TileBag(std::ifstream ifs);
    TileBag(unsigned int);
    TileBag(LinkedList & bag);
+   TileBag();
    ~TileBag();
    Tile* pop();
    Tile* get(int index);

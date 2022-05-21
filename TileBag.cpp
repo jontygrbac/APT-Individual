@@ -31,9 +31,15 @@ TileBag::TileBag(unsigned int seed){
     }
     this->size = 98;
  }
+
+TileBag::TileBag(){
+    this->size=0;
+}
 TileBag::TileBag(LinkedList & bag){
     tiles_list = &bag;
 }
+
+
 TileBag::~TileBag(){
     for(int i = 0; i < this->tiles_list->size(); i++){
         delete this->tiles_list->get(i);
@@ -81,6 +87,7 @@ Tile* TileBag::drawTile() {
 
 bool TileBag::isEmpty() {
     bool flag = true;
+    std::cout << size << std::endl;
     if (size != 0) {
         flag = false;
     }
