@@ -41,13 +41,13 @@ public:
     * Initialise a new game by creating players, populating the playerVector vector,'
     * initialise the tilebag and game board
     */
-    void newGame();
+    void newGame(int playerCount);
     /*
     * Changes and keeps track of turns between players and allows the ability to
     * place, replace tiles and skip a players turn. Ends when requirements for the game to end
     * are met.
     */
-    void playTheGame();
+    void playTheGame(int playerCount);
     void LoadGame();
 private:
     /*
@@ -70,7 +70,7 @@ private:
     /*
     * Saves the current Scrabble game to a formatted file
     */
-    bool createSaveFile(std::string fileName, Player* player1, Player* player2, Board* board, TileBag* tilebag, int counter);
+    bool createSaveFile(std::string fileName, std::vector<Player*> playerVector, Board* board, TileBag* tilebag, int counter);
     /*
     * Checks the game board for a word when the Player places seven tiles in one turn
     */

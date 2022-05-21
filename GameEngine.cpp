@@ -11,7 +11,7 @@ GameEngine::~GameEngine()
 }
 
 // Creates a new game - Initialises players, board, tiles and player hands
-void GameEngine::newGame()
+void GameEngine::newGame(int playerCount)
 {
     std::cout << "Starting a new game" << std::endl
               << std::endl;
@@ -31,7 +31,7 @@ void GameEngine::newGame()
         std::cout << "\n";
         playerVector.push_back(new Player(playerName));
         ++counter;
-    } while (playerVector.size() < MAX_PLAYERS && !std::cin.eof());
+    } while (playerVector.size() < playerCount && !std::cin.eof());
     std::cin.ignore();
     std::cout << "Let's Play!" << std::endl
               << std::endl;
@@ -44,7 +44,7 @@ void GameEngine::newGame()
     dict->add("corncob_caps.txt");
 
     // Filling up the players hands with 7 tiles
-    for (int i = 0; i < MAX_PLAYERS; ++i)
+    for (int i = 0; i < playerCount; ++i)
     {
         drawFullHand(*playerVector[i]);
     }
@@ -56,7 +56,7 @@ void GameEngine::newGame()
         // A method used to start the game
         if (!std::cin.eof())
         {
-            playTheGame();
+            playTheGame(playerCount);
         }
         else
         {
@@ -100,61 +100,52 @@ void GameEngine::LoadGame()
     std::cin >> path;
     std::string line = "";
     std::ifstream ifs;
-    LinkedList hand1;
-    LinkedList hand2;
-    //store players names
-    std::string names[2];
-    //store players scores
-    int scores[2];
+
     std::vector<Player *> playerVector;
     TileBag *tileBag = new TileBag(0);
     Board *board = new Board(MAX_ROW, MAX_COL);
     ifs.open(path);
     ValidateLoadFile(ifs, path);
-    int i = 0;
+    std::getline(ifs, line);
+    std::string c = std::string(1, line[0]);
+    int count = std::stoi(c);
+    std::vector<LinkedList> li;
+    //store players names
+    std::string names[count];
+    //store players scores
+    int scores[count];
     int counter = 0;
-    while (std::getline(ifs, line))
-    {
-        //line 0 and 3 contain players names
-        if (i == 0 || i == 3)
+    for (int i = 0; i < count; ++i){
+            std::getline(ifs, line);
             names[counter] = line;
-        //lines 1 and 4 contain players scores
-        else if (i == 1 || i == 4)
-        {
+            std::getline(ifs, line);
             scores[counter] = std::stoi(line);
             counter++;
-        }
-        else if (i == 2)
-        {
-            //line 2 contains a player's hand
+            std::getline(ifs, line);
             int start = 0;
             std::string del = " ";
             int end = line.find(del);
+            LinkedList hand;
             while (end != -1)
             {
                 std::string token = line.substr(start, end - start);
-                Tile *tile = new Tile(std::stoi(token.substr(token.find('-') + 1)), token[0]);
-                hand1.add_back(tile);
+                Tile* tile = new Tile(std::stoi(token.substr(token.find('-') + 1)), token[0]);
+                hand.add_back(tile);
                 start = end + del.size();
                 end = line.find(del, start);
+
             }
-        }
-          //line 5 contains a player's hand
-        else if (i == 5)
-        {
-            int pointer = 0;
-            for (int i = 0; i < (int)line.size(); ++i)
-            {
-                if (line[i] == ' ')
-                {
-                    int b = i - pointer;
-                    hand2.add_back(new Tile(std::stoi(line.substr(pointer + 2, b)), line.substr(pointer, b)[0]));
-                    pointer = i + 1;
-                }
-            }
-        }
+            li.push_back(hand);
+    }
+
+
+
+    int i = 0;
+    counter = 0;
+    while (std::getline(ifs, line))
+    {
         //line 6 contains tiles placed on board and their coordinates
-        else if (i == 6)
+        if (i == 0)
         {   if (line.length() != 0){
             Tile *tile;
             int start = 0;
@@ -202,7 +193,7 @@ void GameEngine::LoadGame()
             board->insert(tile, row, col); */
         }
         //line 7 has the tiles in a tilebag
-        else if (i == 7)
+        else if (i == 1)
         {
             int start = 0;
             std::string del = " ";
@@ -216,40 +207,37 @@ void GameEngine::LoadGame()
             }
         }
         //line 8 contains the current player's turn
-        else if (i == 8)
+        else if (i == 2)
         {
+            std::cout << "Here" <<std::endl;
             //if current player's name is the first in the names array
-            if (line == names[0])
-            {
-                //add it first to the player's vector so that game resumes on their turn
-                playerVector.push_back(new Player(names[0]));
+            int index = 0;
+            for (int i = 0; i < count; ++i){
+                if (line == names[i]){
+                playerVector.push_back(new Player(names[i]));
                 playerVector[0]->setScore(scores[0]);
-                playerVector.push_back(new Player(names[1]));
-                playerVector[1]->setScore(scores[1]);
+                index = i;
                 //add tiles to players hands
-                for (int i = 0; i < hand1.size(); ++i)
+                for (int j = 0; i < li[i].size(); ++j)
                 {
-                    playerVector[0]->addToHand(*(hand1.get(i)));
+                    playerVector[0]->addToHand(*(li[i].get(j)));
                 }
-                for (int i = 0; i < hand2.size(); ++i)
-                {
-                    playerVector[1]->addToHand(*(hand2.get(i)));
                 }
             }
-            else
+            int ind = 1;
+            for (int i = 0; i < count; ++i){
+                if (i != index){
+                playerVector.push_back(new Player(names[i]));
+                playerVector[ind]->setScore(scores[0]);
+                //add tiles to players hands
+                for (int j = 0; i < li[i].size(); ++j)
+                {
+                    playerVector[ind]->addToHand(*(li[i].get(j)));
+                }
+                }
+                ++ind;
+            }
             {
-                playerVector.push_back(new Player(names[1]));
-                playerVector[0]->setScore(scores[1]);
-                playerVector.push_back(new Player(names[0]));
-                playerVector[1]->setScore(scores[0]);
-                for (int i = 0; i < hand1.size(); ++i)
-                {
-                    playerVector[1]->addToHand(*(hand1.get(i)));
-                }
-                for (int i = 0; i < hand2.size(); ++i)
-                {
-                    playerVector[0]->addToHand(*(hand2.get(i)));
-                }
             }
         }
 
@@ -261,7 +249,7 @@ void GameEngine::LoadGame()
     dict = new Dictionary();
     dict->add("corncob_caps.txt");
 
-    playTheGame();
+    playTheGame(count);
 }
 bool GameEngine::validateName(const std::string name) const
 {
@@ -309,13 +297,11 @@ bool GameEngine::playRound(int counter)
     std::cout << playerVector[counter]->getName() << ", it's your turn" << std::endl;
     std::cout << "Score for " << playerVector[counter]->getName() << ": " << playerVector[counter]->getScore() << std::endl;
 
-    if (counter == 0)
-    {
-        std::cout << "Score for " << playerVector[1]->getName() << ": " << playerVector[1]->getScore() << std::endl;
-    }
-    else
-    {
-        std::cout << "Score for " << playerVector[0]->getName() << ": " << playerVector[0]->getScore() << std::endl;
+    //Output scores for all players
+    for (int i = 0; i < int(playerVector.size()); ++i){
+        if (i != counter){
+            std::cout << "Score for " << playerVector[i]->getName() << ": " << playerVector[i]->getScore() << std::endl;
+        }
     }
 
     board->printBoard();
@@ -417,7 +403,7 @@ bool GameEngine::playRound(int counter)
             std::string fileName = "unnamed_save_file.txt";
 
             fileName = splitline[1] + SAVE_EXTENSION;
-            createSaveFile(fileName, playerVector[0], playerVector[1], board, tileBag, counter);
+            createSaveFile(fileName, playerVector, board, tileBag, counter);
         }
         else if(splitline[0] == EXIT) {
             // gameOverPrint();
@@ -937,7 +923,7 @@ int GameEngine::validatePlacement(std::vector<int> rowplacement, std::vector<int
     return returnVal;    
 }
 
-void GameEngine::playTheGame()
+void GameEngine::playTheGame(int playerCount)
 {
     bool gameOver = false;
     /*
@@ -970,7 +956,7 @@ void GameEngine::playTheGame()
         ++counter;
 
         // Resets counter after the last player's turn
-        if (counter >= 2)
+        if (counter >= playerCount)
         {
             counter = 0;
         }
@@ -1015,14 +1001,14 @@ void GameEngine::gameOverPrint() const
 {
     std::cout << "Game over" << std::endl;
 
-    for (int i = 0; i < 2; ++i)
+    for (int i = 0; i < int(playerVector.size()); ++i)
     {
         std::cout << "Score for " << playerVector[i]->getName() << " : " << playerVector[i]->getScore() << std::endl;
     }
 
     // Keeping track of all the points of players
-    int pointsArray[2];
-    for (int i = 0; i < 2; ++i)
+    int pointsArray[int(playerVector.size())];
+    for (int i = 0; i < int(playerVector.size()); ++i)
     {
         pointsArray[i] = playerVector[i]->getScore();
     }
@@ -1030,7 +1016,7 @@ void GameEngine::gameOverPrint() const
     // Find the highest score
     int highestScore = -1;
     int winningPlayer = -1;
-    for (int i = 0; i < 2; ++i)
+    for (int i = 0; i < int(playerVector.size()); ++i)
     {
         if (pointsArray[i] > highestScore)
         {
@@ -1063,29 +1049,22 @@ void GameEngine::gameOverPrint() const
 }
 
 
-bool GameEngine::createSaveFile(std::string fileName, Player* player1, Player* player2, Board* board, TileBag* tilebag, int counter){
+bool GameEngine::createSaveFile(std::string fileName, std::vector<Player*> playerVector, Board* board, TileBag* tilebag, int counter){
     std::cout << "Saving Game..." << std::endl;
 
    std::ofstream file(fileName);
+   file << int(playerVector.size()) << std::endl;
 
    //add player 1 name, score and hand to savefile
-   std::cout << "Saving player 1..." << std::endl;
-   file << player1->getName() << std::endl;
-   file << player1->getScore() << std::endl;
-   for (int i = 0; i < player1->getHand()->size(); ++i){
-      file << player1->getHand()->get(i)->getLetter() << "-" << player1->getHand()->get(i)->getValue() << " ";
+   for (int i = 0; i < int(playerVector.size()); ++i){
+   std::cout << "Saving player " << i+1 << "..." << std::endl;
+   file << playerVector[i]->getName() << std::endl;
+   file << playerVector[i]->getScore() << std::endl;
+   for (int j = 0; j < playerVector[i]->getHand()->size(); ++j){
+      file << playerVector[i]->getHand()->get(j)->getLetter() << "-" << playerVector[i]->getHand()->get(j)->getValue() << " ";
    }
    file << std::endl;
-   
-   //add player 2 name, score and hand to savefile
-   std::cout << "Saving player 2..." << std::endl;
-   file << player2->getName() << std::endl;
-   file << player2->getScore() << std::endl;
-   for (int i = 0; i < player2->getHand()->size(); ++i){
-      LinkedList* li = player2->getHand();
-      file << li->get(i)->getLetter() << "-" << li->get(i)->getValue() << " ";
    }
-   file << std::endl;
    
    //adds all tile coordinates
    std::cout << "Saving Tiles on Board..." << std::endl;
@@ -1105,12 +1084,7 @@ bool GameEngine::createSaveFile(std::string fileName, Player* player1, Player* p
    file << std::endl;
    //add current player name
    std::cout << "Saving current players turn..." << std::endl;
-   if (counter == 0){
-       file << player1->getName() << std::endl;
-   }
-   else{
-       file << player2->getName() << std::endl;
-   }
+    file << playerVector[counter]->getName() << std::endl;
 
    std::cout << "Save Complete" << std::endl;
    return true;

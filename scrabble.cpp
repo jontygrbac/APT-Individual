@@ -48,8 +48,21 @@ void menu()
             std::shared_ptr<GameEngine> gameEngine = std::make_shared<GameEngine>();
             std::cout << "Select quantity of players: " << std::endl;
             std::cout << "Enter 2, 3 or 4" << std::endl;
-            std::cin >> choice;
-            gameEngine->newGame();
+            bool valid = false;
+            int count = 0;
+            std::string playerAmount;
+            while (valid != true){
+            std::cin >> playerAmount;
+            std::string c = std::string(1, playerAmount[0]);
+            count = std::stoi(c);
+            if (count == 2 || count == 3 || count ==4){
+               valid = true;
+            }
+            else {
+               std::cout << "Please input a valid quantity of players" << std::endl;
+            }
+            }
+            gameEngine->newGame(count);
 
          }
 
