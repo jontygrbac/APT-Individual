@@ -87,7 +87,6 @@ Tile* TileBag::drawTile() {
 
 bool TileBag::isEmpty() {
     bool flag = true;
-    std::cout << size << std::endl;
     if (size != 0) {
         flag = false;
     }

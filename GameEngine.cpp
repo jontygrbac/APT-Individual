@@ -1406,9 +1406,8 @@ void GameEngine::playTheGame(int playerCount)
     {
         // FIX ME: IF (playerTurns[counter] == true)
         gameOver = playRound(counter);
-        std::cout << tileBag->isEmpty() << std::endl;
         // End of game condition
-        if (tileBag->isEmpty() && playerNoLongerHasTiles())
+        if (playerNoLongerHasTiles())
         {
             gameOver = true;
         }
@@ -1447,7 +1446,6 @@ void GameEngine::playTheGame(int playerCount)
 bool GameEngine::playerNoLongerHasTiles()
 {
     bool playerNoLongerHasTiles = false;
-    std::cout << tileBag->getSize() << std::endl;
     for (int i = 0; i < int(playerVector.size()); ++i)
     {
         if (playerVector[i]->getHand()->size() == 0)
