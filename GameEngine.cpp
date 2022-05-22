@@ -31,7 +31,7 @@ void GameEngine::newGame(int playerCount)
         std::cout << "\n";
         playerVector.push_back(new Player(playerName));
         ++counter;
-    } while (playerVector.size() < playerCount && !std::cin.eof());
+    } while (int(playerVector.size()) < playerCount && !std::cin.eof());
     std::cin.ignore();
     std::cout << "Let's Play!" << std::endl
               << std::endl;
