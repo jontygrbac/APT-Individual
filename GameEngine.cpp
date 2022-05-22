@@ -66,7 +66,8 @@ void GameEngine::newGame(int playerCount)
     }
 }
 int ValidateLoadFile(std::ifstream &ifs, std::string path)
-{
+{   
+    // Loop until valid file has been entered
     std::string line = "";
     while (!ifs.good() && !std::cin.eof())
     {
@@ -80,6 +81,7 @@ int ValidateLoadFile(std::ifstream &ifs, std::string path)
 
 int getTileNumber(Letter letter)
 {
+    //Read in the tiles line by line
     std::ifstream ifs;
     ifs.open("ScrabbleTiles.txt");
     std::string line;
@@ -95,11 +97,13 @@ int getTileNumber(Letter letter)
 
 void GameEngine::LoadGame()
 {
+    //Loading in a game
     std::string path = "";
     std::cout << "Enter the filename to load a game" << std::endl;
     std::cin >> path;
     std::string line = "";
     std::ifstream ifs;
+    //Multiple hands set up in case of multiple players
     LinkedList hand1;
     LinkedList hand2;
     LinkedList hand3;
@@ -113,6 +117,8 @@ void GameEngine::LoadGame()
     std::string names[count];
     //store players scores
     int scores[count];
+
+    //create basic structure, player storage, tilebag and board
     std::vector<Player *> playerVector;
     TileBag *tileBag = new TileBag(0);
     Board *board = new Board(MAX_ROW, MAX_COL);
@@ -263,7 +269,7 @@ void GameEngine::LoadGame()
 
         i++;
         }
-
+        //Alternate for 3 players
         else if (count == 3){
         //line 0 and 3 contain players names
         if (i == 0 || i == 3 || i == 6){
@@ -451,6 +457,7 @@ void GameEngine::LoadGame()
         }
 
         i++;
+        ///Alternate for 4 players
         }
         else if (count == 4){
         //line 0 and 3 contain players names
@@ -688,6 +695,7 @@ void GameEngine::LoadGame()
     this->playerVector = playerVector;
     this->tileBag = tileBag;
     this->board = board;
+    //Creation of dictionary
     dict = new Dictionary();
     dict->add("corncob_caps.txt");
 
@@ -696,20 +704,10 @@ void GameEngine::LoadGame()
 
 bool GameEngine::validateName(const std::string name) const
 {
+    //Basic name validation, ensure that it is uppercase and alpha
     bool flag = true;
     char notAllowed[] = "qwertyuiopasdfghjklzxcvbnm1234567890!@#$%^&*()`~-_=+[{]};:<,>.?/|'";
 
-    // Checks if the player entered doesn't already exist
-    /* for (int i = 0; i < MAX_PLAYERS; ++i) {
-        if (playerVector[i]->getName() != "") {
-                if (playerVector[i]->getName() == (std::string(name))) {
-                    flag = false;
-                }
-        }
-    }   */
-    /* Looping through the name and notAllowed character arrays to
-     * find if they match
-     */
     for (int i = 0; (name[i] != '\0'); ++i)
     {
         for (int j = 0; (notAllowed[j] != '\0'); ++j)
@@ -726,6 +724,7 @@ bool GameEngine::validateName(const std::string name) const
 // Refills the player's hand by drawing a tile from the tile bag
 void GameEngine::drawFullHand(Player &player)
 {
+    //Fill hand up to max size
     while (player.getHand()->size() < MAX_HAND)
     {
         if (tileBag->getSize() > 0)
@@ -778,7 +777,7 @@ bool GameEngine::playRound(int counter)
     int boardcheck = board->getNumberOfTilesOnBoard();
 
     
-
+    //validation loop, ensure that placement is valid and word is english
     while (validation == false){
     std::vector<int> rowplacement;
     std::vector<int> colplacement; 
@@ -810,16 +809,18 @@ bool GameEngine::playRound(int counter)
         
        
         splitline.push_back(line.substr(pointer, (line.size()-pointer)));
-        
+        //check if first word is "place"
         if(splitline[0] == PLACE) {
+            //if it's place then choice will become the next word 
             choice = splitline[1];
+            //if the next word is done, choice becomes done instead and validation is true
             if(splitline[1] == DONE){
             choice = DONE;
             validation = true;
         }
         }
         
-        
+        //check if word is replace
         else if(splitline[0] == REPLACE) {
             std::string tileToReplace = splitline[1];
 
@@ -838,21 +839,25 @@ bool GameEngine::playRound(int counter)
             validation = true;
             choice = DONE;
         }
+        //check if word is pass
         else if(splitline[0] == PASS) {
             choice = DONE;
             validation = true;
         }
+        //check if word is save
         else if(splitline[0] == SAVE) {
             std::string fileName = "unnamed_save_file.txt";
 
             fileName = splitline[1] + SAVE_EXTENSION;
             createSaveFile(fileName, playerVector, board, tileBag, counter);
         }
+        //check if first word is exit
         else if(splitline[0] == EXIT) {
             // gameOverPrint();
             return true;
             validation = true;
         }
+        //check if first word is help
         else if(splitline[0] == HELP){
             std::cout << "---------------------------------------------------------" << std::endl;
             std::cout << "Place tile: \"place <tile e.g A> at <coordinate e.g C2>\"" << std::endl;
@@ -863,6 +868,7 @@ bool GameEngine::playRound(int counter)
             std::cout << "Pass turn: \"pass>\"" << std::endl;
             std::cout << "---------------------------------------------------------" << std::endl;
         }
+        //else invalid input
         else{
             std::cout << "Invalid input" << std::endl;
         }
@@ -926,7 +932,7 @@ bool GameEngine::playRound(int counter)
             }
         }
     }
-    ///0 for horizontal, 1 for vertical, 2 for invalid, 3 if it is single tile placed
+    //If more than one tile has been placed, then enter to validate placement
     if (count > 0){
     int orientation = validatePlacement(rowplacement, colplacement);
 
@@ -940,6 +946,7 @@ bool GameEngine::playRound(int counter)
         }
         validation = false;
     }
+    //Tile has no nearby tiles
     else if (orientation == 4){
         std::cout << "Invalid input, tiles must have interlinking tiles! Cannot be isolated" << std::endl;
         for (int i = 0; i < int(rowplacement.size()); ++i){
@@ -950,10 +957,12 @@ bool GameEngine::playRound(int counter)
     }
     //Valid input/orientation
     else{
+        //If scoring is a success exit the loop
         bool result = scoring(rowplacement, colplacement, playerVector[counter], orientation, boardcheck);
         if (result){
         validation = true;
         }
+        //If scoring has failed, the user hasn't entered a valid english word or they have placed a word that doesn't apply to basic ruling
         else {
         std::cout << "Invalid Word or Input" << std::endl;
         std::cout << "Place a valid english word and ensure it has an adjacent tile" <<std::endl;
@@ -980,7 +989,9 @@ bool GameEngine::playRound(int counter)
 }
 
 bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplacement, Player* player, int orientation, int boardcheck){
-    
+    //Scoring placement takes place if three different conditions, if it's horizontal then take horizontal loop
+    //Horizontal loop will check for a horizontal word once and then following will check all vertical words for each tile placement
+    //Words are stored in a vector words and will be checked later for valid english
     std::vector<std::vector<Tile*> > words;
     //Horizontal placement
     if (orientation == 0){
@@ -1092,6 +1103,9 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
 
 
     //Vertical placement
+    //Similarily Vertical will check vertical word once, to ensure multiples are not added
+    //Then it will check every horizontal possibility for tiles
+    //Words are stored in a vector words and will be checked later for valid english
     else if (orientation == 1){
         int count = -1;
         Tile* tile = nullptr;
@@ -1303,6 +1317,7 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
 }
 
 bool GameEngine::validateWords(std::vector<std::vector<Tile*> > words){
+    //Basic check to see if word is not in dictionary, this loop creates a string from the tiles.
     std::vector<std::string> strWord; 
     for (int i = 0; i < int(words.size()); ++i){
         std::string word = "";
@@ -1311,7 +1326,7 @@ bool GameEngine::validateWords(std::vector<std::vector<Tile*> > words){
         }
         strWord.push_back(word);
     }
-
+    //Each string is checked against the dictionary
     for (int i = 0; i < int(strWord.size()); ++i){
         if (strWord[i].size() > 1){
             std::cout << strWord[i] <<std::endl;
@@ -1325,6 +1340,8 @@ bool GameEngine::validateWords(std::vector<std::vector<Tile*> > words){
 }
 
 int GameEngine::validatePlacement(std::vector<int> rowplacement, std::vector<int>colplacement){
+    //To find if a placement is horizontal, vertical or single
+    //Otherwise return invalid or stray
     bool rowcheck = true;
     bool colcheck = true;
     int returnVal = 2;
@@ -1404,7 +1421,6 @@ void GameEngine::playTheGame(int playerCount)
     int counter = 0;
     while (!gameOver && !quit && !std::cin.eof())
     {
-        // FIX ME: IF (playerTurns[counter] == true)
         gameOver = playRound(counter);
         // End of game condition
         if (playerNoLongerHasTiles())
@@ -1430,7 +1446,6 @@ void GameEngine::playTheGame(int playerCount)
         // Game over statements
         if (gameOver)
         {
-            // createSaveFile(playerVector[0], playerVector[1], board, tileBag, counter);
             gameOverPrint();
             delete board;
             delete tileBag;
@@ -1515,7 +1530,7 @@ bool GameEngine::createSaveFile(std::string fileName, std::vector<Player*> playe
    std::ofstream file("saves/" + fileName);
    file << int(playerVector.size()) << std::endl;
 
-   //add player 1 name, score and hand to savefile
+   //adding each player to savefile
    for (int i = 0; i < int(playerVector.size()); ++i){
    std::cout << "Saving player " << i+1 << "..." << std::endl;
    file << playerVector[i]->getName() << std::endl;
