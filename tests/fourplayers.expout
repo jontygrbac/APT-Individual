@@ -1,0 +1,60 @@
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit
+> Select quantity of players: 
+Enter 2, 3 or 4
+Starting a new game
+
+Enter a name for player 1 (uppercase characters only)
+> 
+Enter a name for player 2 (uppercase characters only)
+> 
+Enter a name for player 3 (uppercase characters only)
+> 
+Enter a name for player 4 (uppercase characters only)
+> 
+Let's Play!
+
+JONTY, it's your turn
+Score for JONTY: 0
+Score for CHRIS: 0
+Score for TONY: 0
+Score for CORY: 0
+    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
+   -------------------------------------------------------------
+A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+B  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+C  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+H  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+I  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
+Your hand is
+A-1, O-1, U-1, L-1, N-1, I-1, N-1
+Game over
+Score for JONTY : 0
+Score for CHRIS : 0
+Score for TONY : 0
+Score for CORY : 0
+DRAW! No one wins!
+
+Goodbye
+
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit

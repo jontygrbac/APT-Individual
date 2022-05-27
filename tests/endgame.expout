@@ -1,0 +1,73 @@
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit
+> Enter the filename to load a game
+JED, it's your turn
+Score for JED: 0
+Score for FRED: 0
+Score for TED: 0
+Score for JONTY: 2
+    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
+   -------------------------------------------------------------
+A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+B  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+C  |   | O | U | R |   |   |   |   |   |   |   |   |   |   |   |
+D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+H  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+I  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
+Your hand is
+T-1
+Invalid input
+FRED, it's your turn
+Score for FRED: 0
+Score for JED: 0
+Score for TED: 0
+Score for JONTY: 2
+    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
+   -------------------------------------------------------------
+A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+B  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+C  |   | O | U | R |   |   |   |   |   |   |   |   |   |   |   |
+D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+H  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+I  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
+Your hand is
+S-1
+Game over
+Score for JED : 0
+Score for FRED : 4
+Score for TED : 0
+Score for JONTY : 2
+Player FRED won the game!
+
+Goodbye
+
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit

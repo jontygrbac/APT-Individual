@@ -34,6 +34,7 @@ TileBag::TileBag(unsigned int seed){
 
 TileBag::TileBag(){
     this->size=0;
+    tiles_list = new LinkedList();
 }
 TileBag::TileBag(LinkedList & bag){
     tiles_list = &bag;
@@ -61,6 +62,7 @@ Tile* TileBag::get(int index){
 }
 void TileBag::add(Tile & tile){
     tiles_list->add_back(&tile);
+    size += 1;
 }
 void TileBag::remove(Tile & tile){
     tiles_list->add_back(&tile);

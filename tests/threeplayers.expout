@@ -1,0 +1,88 @@
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit
+> Select quantity of players: 
+Enter 2, 3 or 4
+Starting a new game
+
+Enter a name for player 1 (uppercase characters only)
+> 
+Enter a name for player 2 (uppercase characters only)
+> 
+Enter a name for player 3 (uppercase characters only)
+> 
+Let's Play!
+
+JONTY, it's your turn
+Score for JONTY: 0
+Score for TED: 0
+Score for FRED: 0
+    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
+   -------------------------------------------------------------
+A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+B  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+C  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+H  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+I  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
+Your hand is
+A-1, T-1, I-1, O-1, B-3, Q-10, E-1
+---------------------------------------------------------
+Place tile: "place <tile e.g A> at <coordinate e.g C2>"
+Finish placing tiles: "place Done"
+Replace tile: "replace <tile e.g C>"
+Exit game: "exit"
+Save game: "save <filename>"
+Pass turn: "pass>"
+---------------------------------------------------------
+TED, it's your turn
+Score for TED: 0
+Score for JONTY: 0
+Score for FRED: 0
+    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
+   -------------------------------------------------------------
+A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+B  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+C  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+H  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+I  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
+Your hand is
+G-2, K-5, O-1, R-1, C-3, W-4, F-4
+Game over
+Score for JONTY : 0
+Score for TED : 0
+Score for FRED : 0
+DRAW! No one wins!
+
+Goodbye
+
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit

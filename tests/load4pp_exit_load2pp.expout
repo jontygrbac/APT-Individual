@@ -1,0 +1,151 @@
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit
+> Select quantity of players: 
+Enter 2, 3 or 4
+Starting a new game
+
+Enter a name for player 1 (uppercase characters only)
+> 
+Enter a name for player 2 (uppercase characters only)
+> 
+Enter a name for player 3 (uppercase characters only)
+> 
+Enter a name for player 4 (uppercase characters only)
+> 
+Let's Play!
+
+JONTY, it's your turn
+Score for JONTY: 0
+Score for CHRIS: 0
+Score for TONY: 0
+Score for CORY: 0
+    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
+   -------------------------------------------------------------
+A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+B  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+C  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+H  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+I  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
+Your hand is
+A-1, O-1, U-1, L-1, N-1, I-1, N-1
+Game over
+Score for JONTY : 0
+Score for CHRIS : 0
+Score for TONY : 0
+Score for CORY : 0
+DRAW! No one wins!
+
+Goodbye
+
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit
+> jontyg@DESKTOP-SE9JPQL:~/APT-Individual/APT-Individual$ ./scrabble < tests/load4pp_exit_load2pp.env
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit
+> Enter the filename to load a game
+TED, it's your turn
+Score for TED: 0
+Score for JONTY: 4
+Score for FRED: 0
+Score for JED: 0
+    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
+   -------------------------------------------------------------
+A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+B  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+C  |   | Y |   |   |   |   |   |   |   |   |   |   |   |   |   |
+D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+H  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+I  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
+Your hand is
+A-1, I-1, T-1, A-1, D-2, A-1, E-1
+Invalid input
+Game over
+Score for TED : 0
+Score for JONTY : 4
+Score for FRED : 0
+Score for JED : 0
+Player JONTY won the game!
+
+Goodbye
+
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit
+> Enter the filename to load a game
+PADDY, it's your turn
+Score for PADDY: 4
+Score for JONTY: 27
+Score for AL: 10
+Score for TIFF: 0
+    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
+   -------------------------------------------------------------
+A  |   |   | L |   | J |   |   |   |   |   |   |   |   |   |   |
+B  |   |   | O |   | O |   |   |   |   |   |   |   |   |   |   |
+C  |   |   | W | A | Y |   |   |   |   |   |   |   |   |   |   |
+D  |   |   |   | I |   |   |   |   |   |   |   |   |   |   |   |
+E  |   | L | I | D |   |   |   |   |   |   |   |   |   |   |   |
+F  |   | O |   |   |   |   |   |   |   |   |   |   |   |   |   |
+G  |   | R |   |   |   |   |   |   |   |   |   |   |   |   |   |
+H  |   | D |   |   |   |   |   |   |   |   |   |   |   |   |   |
+I  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
+Your hand is
+D-2, Q-10, E-1, O-1, A-1, B-3, T-1
+Invalid input
+Game over
+Score for PADDY : 4
+Score for JONTY : 27
+Score for AL : 10
+Score for TIFF : 0
+Player JONTY won the game!
+
+Goodbye
+
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit

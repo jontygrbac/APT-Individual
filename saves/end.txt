@@ -1,0 +1,16 @@
+4
+JONTY
+2
+R-1 
+TED
+0
+A-1 D-3 
+FRED
+0
+S-1 
+JED
+0
+T-1 
+O@C1 U@C2 R@C3 
+R-1 
+JED

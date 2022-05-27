@@ -120,7 +120,7 @@ void GameEngine::LoadGame()
 
     //create basic structure, player storage, tilebag and board
     std::vector<Player *> playerVector;
-    TileBag *tileBag = new TileBag(0);
+    TileBag *tileBag = new TileBag();
     Board *board = new Board(MAX_ROW, MAX_COL);
 
     int i = 0;
@@ -725,7 +725,7 @@ bool GameEngine::validateName(const std::string name) const
 void GameEngine::drawFullHand(Player &player)
 {
     //Fill hand up to max size
-    while (player.getHand()->size() < MAX_HAND)
+    while (player.getHand()->size() < MAX_HAND && tileBag->getSize()!=0)
     {
         if (tileBag->getSize() > 0)
         {
@@ -1079,7 +1079,7 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
     if (wordValidation==false){
         return false;
     }
-    if (tiletotal == scoretracker){
+    if (tiletotal == scoretracker && boardcheck > 0){
         return false;
     }
     else {
@@ -1192,7 +1192,7 @@ bool GameEngine::scoring(std::vector<int> rowplacement, std::vector<int>colplace
     if (wordValidation==false){
         return false;
     }
-    if (tiletotal == scoretracker){
+    if (tiletotal == scoretracker && boardcheck > 0){
         return false;
     }
     else {
@@ -1329,7 +1329,6 @@ bool GameEngine::validateWords(std::vector<std::vector<Tile*> > words){
     //Each string is checked against the dictionary
     for (int i = 0; i < int(strWord.size()); ++i){
         if (strWord[i].size() > 1){
-            std::cout << strWord[i] <<std::endl;
             if (dict->get(strWord[i])==false){
                 return false;
             }
