@@ -53,10 +53,10 @@ void menu()
             std::string playerAmount;
             while (valid != true){
             std::cin >> playerAmount;
-            std::string c = std::string(1, playerAmount[0]);
-            count = std::stoi(c);
-            if (count == 2 || count == 3 || count ==4){
+            if (playerAmount == "2" || playerAmount == "3" || playerAmount == "4"){
                valid = true;
+               std::string c = std::string(1, playerAmount[0]);
+               count = std::stoi(c);
             }
             else {
                std::cout << "Please input a valid quantity of players" << std::endl;

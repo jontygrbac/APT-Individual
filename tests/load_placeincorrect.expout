@@ -1,0 +1,76 @@
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit
+> Enter the filename to load a game
+TED, it's your turn
+Score for TED: 0
+Score for JONTY: 0
+Score for FRED: 0
+Score for JED: 0
+    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
+   -------------------------------------------------------------
+A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+B  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+C  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+H  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+I  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
+Your hand is
+A-1, I-1, T-1, A-1, D-2, A-1, E-1
+Invalid input
+Invalid input, tiles must have interlinking tiles! Cannot be isolated
+JONTY, it's your turn
+Score for JONTY: 0
+Score for TED: 4
+Score for FRED: 0
+Score for JED: 0
+    0   1   2   3   4   5   6   7   8   9   10  11  12  13  14  
+   -------------------------------------------------------------
+A  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+B  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+C  |   | A | I | D |   |   |   |   |   |   |   |   |   |   |   |
+D  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+E  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+F  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+G  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+H  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+I  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+J  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+K  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+L  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+M  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+N  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+O  |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+
+Your hand is
+R-1, K-5, I-1, E-1, E-1, F-4, O-1
+Invalid Word or Input
+Place a valid english word and ensure it has an adjacent tile
+Game over
+Score for TED : 4
+Score for JONTY : 0
+Score for FRED : 0
+Score for JED : 0
+Player TED won the game!
+
+Goodbye
+
+Welcome to Scrabble!
+------------------
+1. New Game
+2. Load Game
+3. Credits (Show student information)
+4. Quit                             
