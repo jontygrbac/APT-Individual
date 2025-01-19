@@ -33,10 +33,10 @@ void menu()
       std::string name_p1 = "";
       std::string name_p2 = "";
       
-      std::cout << "1. New Game" << std::endl;
-      std::cout << "2. Load Game" << std::endl;
-      std::cout << "3. Credits (Show student information)" << std::endl;
-      std::cout << "4. Quit" << std::endl;
+      std::cout << "New Game: Enter '1'" << std::endl;
+      std::cout << "Load Game: Enter '2'" << std::endl;
+      std::cout << "Credits (Show student information): Enter '3'" << std::endl;
+      std::cout << "Quit: Enter '4" << std::endl;
       std::cout << "> "; 
       std::cin >> choice;
 

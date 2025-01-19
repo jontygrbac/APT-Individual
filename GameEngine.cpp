@@ -340,6 +340,8 @@ bool GameEngine::playRound(int counter)
         }
     }
 
+    std::cout << "Enter 'help' to learn commands for the game!" << std::endl;
+
     std::string choice = "";
     char numtoletter[LETTERS] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K',
                             'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W',
